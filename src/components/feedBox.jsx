@@ -1,6 +1,30 @@
-import { Icon } from "@iconify/react/dist/iconify.js"
+import { useEffect, useState } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { supabase } from "../supabase/supabaseClient";
 
 const FeedBox = ({ item }) => {
+    const [displayName, setDisplayName] = useState("");
+
+    const fetchUserName = async (userId) => {
+        try {
+            const { data, error } = await supabase.auth.getUser(userId);
+
+            if (error) {
+                console.error("Error fetching user data:", error);
+            } else {
+                const userMetadata = data.user_metadata;
+                setDisplayName(userMetadata.displayName || "Unknown User");
+            }
+        } catch (err) {
+            console.error("An unexpected error occurred:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (item.userId) {
+            fetchUserName(item.userId);
+        }
+    }, [item.userId]);
 
     return (
         <div>
@@ -13,13 +37,18 @@ const FeedBox = ({ item }) => {
                         <div className="user-details flex justify-between">
                             <div className="">
                                 <h1 className="user-name text-gray-200 flex items-center">
-                                    #{item.username}
+                                    {displayName}
                                     <Icon icon="mdi:approve" color="purple" />
                                 </h1>
                                 <span className="time text-sm text-gray-400"> {item.date} </span>
                             </div>
-                            <div className="like">
-                                <Icon icon="solar:chat-square-like-broken" width="1.5em" color="white" />
+                            <div className="like text-center flex justify-center">
+                                <div className="mx-auto">
+                                    <div className="icon mx-auto">
+                                        <Icon icon="solar:chat-square-like-broken" width="1.5em" color="white" />
+                                    </div>
+                                    <span className="text-sm text-gray-500">200 likes</span>
+                                </div>
                             </div>
                         </div>
                         <div className="content pt-4">
@@ -30,11 +59,9 @@ const FeedBox = ({ item }) => {
                     </div>
                 </div>
             </div>
-            <div className="mx-8 h-8 border-x border-gray-600">
-            </div>
-
+            <div className="mx-8 h-8 border-x border-gray-600"></div>
         </div>
-    )
-}
+    );
+};
 
-export default FeedBox
+export default FeedBox;
