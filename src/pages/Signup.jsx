@@ -48,13 +48,12 @@ const SignUp = () => {
             } else {
                 const { error: profileError } = await supabase
                     .from("profile")
-                    .insert({
+                    .insert([{
                         userId: data.user.id,
                         email: data.user.email,
                         username: username,
-                        avatar: getRandomAvatar(),  // Store the avatar URL
-                        created_at: new Date()
-                    });
+                        avatar: getRandomAvatar(),
+                    }]);
                 console.log("Signup Successful:", data);
                 if (profileError) {
                     setError(profileError.message);

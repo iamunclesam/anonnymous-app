@@ -33,7 +33,7 @@ const FeedBox = ({ item }) => {
 
     return (
         <div>
-            <div className="bg-gray-800 rounded p-6">
+            <div className=" p-2">
                 <div className="">
                     <div className="post">
                         <div className="user-details">
@@ -69,7 +69,7 @@ const FeedBox = ({ item }) => {
                     </div>
                 </div>
             </div>
-            <div className="mx-8 h-8 border-x border-gray-600"></div>
+            {/* <div className="mx-8 h-8 border-x border-gray-600"></div> */}
         </div>
     );
 };

@@ -48,7 +48,7 @@ const home = () => {
   return (
     <>
       <Dashboard />
-      <div className="sm:ml-64 p-4 md:p-8">
+      <div className="sm:ml-64 p-3 md:p-8">
         <div className="grid md:grid-cols-3 md:gap-8">
           <div className="md:col-span-2">
             <div className="post-form mb-8">
@@ -60,7 +60,7 @@ const home = () => {
             </div>
           </div>
           <div className="col">
-            <div className="">
+            <div className="hidden md:block">
               <Buzz />
             </div>
 
