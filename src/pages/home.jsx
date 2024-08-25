@@ -12,6 +12,8 @@ const home = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [error, setError] = useState('')
   // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [items, setItems] = useState([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const fetchSession = async () => {
       const { data, error } = await supabase.auth.getSession();
@@ -24,7 +26,25 @@ const home = () => {
     }
 
     fetchSession()
-  }, [])
+  }, []);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+      const fetchFeeds = async () => {
+          try {
+              let { data } = await supabase
+                  .from('feeds')
+                  .select('*')
+              if (data) setItems(data)
+          } catch (error) {
+              console.log(error.message)
+          }
+      }
+
+      fetchFeeds()
+
+  }, []);
+
   return (
     <>
       <Dashboard />
@@ -35,7 +55,7 @@ const home = () => {
               <PostBox />
             </div>
             <div className="feed">
-              <h1 className="font-bold text-white text-xl py-4">Feeds</h1>
+              <h1 className="font-bold text-white text-xl py-4">Feeds({items.length})</h1>
               <FeedList />
             </div>
           </div>

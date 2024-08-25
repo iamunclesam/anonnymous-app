@@ -1,18 +1,34 @@
 import { useState } from "react";
-import { supabase } from "../supabase/supabaseClient"
+import { supabase } from "../supabase/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
+// Array of avatar image links
+const avatarImages = [
+    "https://randomuser.me/api/portraits/men/1.jpg",
+    "https://randomuser.me/api/portraits/women/1.jpg",
+    "https://randomuser.me/api/portraits/men/2.jpg",
+    "https://randomuser.me/api/portraits/women/2.jpg",
+    // Add more avatar links here
+];
 
 const SignUp = () => {
-    const [username, setUserName] = useState("")
+    const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('')
-    let [isLoading, setLoading] = useState(false)
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [isLoading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    // Function to pick a random avatar
+    const getRandomAvatar = () => {
+        const randomIndex = Math.floor(Math.random() * avatarImages.length);
+        return avatarImages[randomIndex];
+    };
 
     const authSignUp = async (e) => {
         e.preventDefault();
-        setError(null);
-        setLoading(true)
+        setError("");
+        setLoading(true);
 
         try {
             const { data, error } = await supabase.auth.signUp({
@@ -20,38 +36,50 @@ const SignUp = () => {
                 password,
                 options: {
                     data: {
-                        displayName: username
+                        displayName: username,
+                        avatar: getRandomAvatar()  // Include the avatar URL
                     }
                 }
-
             });
 
             if (error) {
                 setError(error.message);
-                console.log("Error:", error); // Log the error to see more details
+                console.log("Error:", error);
             } else {
+                const { error: profileError } = await supabase
+                    .from("profile")
+                    .insert({
+                        userId: data.user.id,
+                        email: data.user.email,
+                        username: username,
+                        avatar: getRandomAvatar(),  // Store the avatar URL
+                        created_at: new Date()
+                    });
                 console.log("Signup Successful:", data);
-                setEmail("");
-                setPassword("")
-                setUserName("")
+                if (profileError) {
+                    setError(profileError.message);
+                    console.log("Profile Error:", profileError);
+                } else {
+                    console.log("Signup Successful:", data);
+                    setEmail("");
+                    setPassword("");
+                    setUserName("");
+                    setLoading(false);
+                    navigate("/login");
+                }
             }
         } catch (err) {
             setError("An unexpected error occurred.");
             console.log("Failed to fetch:", err);
-        }
-        finally {
-            setLoading(false)
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div>
-
             <section className="bg-gray-50 dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen md:h-screen lg:py-0">
-                    {/* <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                      Test Social
-                    </a> */}
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -88,12 +116,12 @@ const SignUp = () => {
                                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                                 </div>
                                 <button type="submit" className="w-full text-white bg-purple-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                     {isLoading ? 'Signing up...' : 'Sign up'}
-                                     </button>
+                                    {isLoading ? 'Signing up...' : 'Sign up'}
+                                </button>
 
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                     Have an account? <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                                       Sign in
+                                        Sign in
                                     </a>
                                 </p>
                             </form>
@@ -102,7 +130,7 @@ const SignUp = () => {
                 </div>
             </section>
         </div>
-    )
-}
+    );
+};
 
-export default SignUp
+export default SignUp;
