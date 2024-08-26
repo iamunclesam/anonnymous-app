@@ -47,7 +47,7 @@ const SignUp = () => {
                 console.log("Error:", error);
             } else {
                 const { error: profileError } = await supabase
-                    .from("profile")
+                    .from("Profile")
                     .insert([{
                         userId: data.user.id,
                         email: data.user.email,

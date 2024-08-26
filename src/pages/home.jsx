@@ -54,7 +54,7 @@ const home = () => {
             <div className="post-form mb-8">
               <PostBox />
             </div>
-            <div className="feed">
+            <div className="feed pb-16">
               <h1 className="font-bold text-white text-xl py-4">Feeds({items.length})</h1>
               <FeedList />
             </div>

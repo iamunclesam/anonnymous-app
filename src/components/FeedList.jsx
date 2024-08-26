@@ -11,6 +11,7 @@ const FeedList = () => {
                 let { data } = await supabase
                     .from('feeds')
                     .select('*')
+                    .order('created_at', { ascending: false });
                 if (data) setItems(data)
             } catch (error) {
                 console.log(error.message)
