@@ -4,11 +4,12 @@ import { supabase } from "../supabase/supabaseClient";
 
 const FeedBox = ({ item }) => {
     const [displayName, setDisplayName] = useState("");
+    const [currentUser, setCurrentUser] = useState(null);
     const [avatar, setAvatar] = useState("");
     const [error, setError] = useState(null);
 
     const fetchUserName = async (userId) => {
-        console.log("userId-box:", userId)
+        console.log("userId-box:", userId);
         try {
             const { data, error } = await supabase
                 .from("Profile")
@@ -21,13 +22,33 @@ const FeedBox = ({ item }) => {
                     setError(error.message);
                 }
             } else {
-                setDisplayName(data.username)
-                setAvatar(data.avatar)
+                setDisplayName(data.username);
+                setAvatar(data.avatar);
             }
         } catch (err) {
             console.error("Unexpected error:", err.message);
         }
     };
+
+    const fetchCurrentUser = async () => {
+        try {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) {
+                setError(error.message);
+            } else {
+                const userData = data.session?.user;
+                if (userData) {
+                    setCurrentUser(userData);
+                }
+            }
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchCurrentUser();
+    }, []); // Empty dependency array to fetch only once on mount
 
     useEffect(() => {
         if (item.userId) {
@@ -38,12 +59,23 @@ const FeedBox = ({ item }) => {
     return (
         <div className="my-4">
             <div className="flex gap-2">
-                <div className="user-image flex-shrink-0">
-                    <img
-                        src={avatar}
-                        className="w-14 h-14 border border-purple-600 p-1 object-cover rounded-full"
-                        alt="User Avatar"
-                    />
+                <div className="user-image flex-shrink-0 relative">
+                    <div className="relative">
+                        <img
+                            src={avatar}
+                            className="w-14 h-14 border border-purple-600 p-1 object-cover rounded-full"
+                            alt="User Avatar"
+                        />
+                        {/* Show follow button only if the post is not from the current user */}
+                        {currentUser && item.userId !== currentUser.id && (
+                            <button
+                                className="follow-button absolute -bottom-2 right-3.5 p-1 bg-purple-800 rounded-full"
+                                aria-label="Follow"
+                            >
+                                <Icon icon="mdi:plus" color="white" className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
                 </div>
                 <div className="post w-full">
                     <div className="user-details">

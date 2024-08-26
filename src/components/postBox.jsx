@@ -91,7 +91,7 @@ const PostBox = () => {
                             onChange={(e) => setContent(e.target.value)}
                             type="text"
                             placeholder="What's Popping?"
-                            className=" text-white bg-transparent px-2 h-10 rounded-md w-full flex-grow"
+                            className=" text-white bg-transparent p-4 h-10 rounded-md w-full flex-grow"
                             required
                         />
 

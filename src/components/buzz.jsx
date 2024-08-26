@@ -6,7 +6,7 @@ const buzz = () => {
             <div className="bg-gray-800 rounded p-4">
                 <div className="flex justify-between items-center">
                     <h1 className="text-white text-xl">Servers</h1>
-                    <button className="text-sm text-white flex items-center gap-1 bg-black p-2 rounded"> <Icon icon="line-md:cloud-up" />Start a server</button>
+                    <button className="text-sm text-white flex items-center gap-1 bg-purple-900 p-2 rounded"> <Icon icon="line-md:cloud-up" />Start a server</button>
                 </div>
 
                 <div className="server-list">

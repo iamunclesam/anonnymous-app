@@ -24,7 +24,7 @@ const login = () => {
                 console.log("Error:", error);
             } else {
                 console.log("Login Successful:", data);
-                navigate('/')
+                navigate('/feed')
             }
         } catch (err) {
             setError("An unexpected error occurred.");

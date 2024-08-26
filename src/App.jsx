@@ -7,13 +7,15 @@ import SignUp from './pages/Signup';
 ProfilePage
 import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
 import ProfilePage from './pages/Profile';
+import Room from './pages/Room';
+
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-        <Route path='/dashboard' element={
+        <Route path="/" element={<Navigate to="/feed" />} />
+        <Route path='/feed' element={
           <ProtectedRoute>
             <Home />
           </ProtectedRoute>
@@ -21,14 +23,15 @@ function App() {
         />
 
         <Route path='/profile' element={
-          <ProfilePage />
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
         }
         />
 
-
-        <Route path='/profile' element={
+        <Route path='/room' element={
           <ProtectedRoute>
-            <ProfilePage />
+            <Room />
           </ProtectedRoute>
         }
         />

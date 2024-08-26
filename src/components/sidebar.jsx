@@ -45,8 +45,8 @@ const Sidebar = () => {
 
                     {/* Logout Button */}
                     <a href="/logout" className="text-red-500 hover:text-red-400 flex items-center gap-2 mt-auto">
-                        <Icon icon="solar:logout-2-bold" className="w-6 h-6" />
-                        <span>Logout</span>
+                        <Icon icon="material-symbols:indeterminate-question-box" className="w-6 h-6" />
+                        <span>Terminate Account</span>
                     </a>
                 </nav>
             </aside>
