@@ -85,13 +85,13 @@ const PostBox = () => {
                     <div className="user-image flex-shrink-0">
                         <img src={avatar} className="w-12 h-12 hidden md:block rounded-full" alt="" />
                     </div>
-                    <div className="post-form bg-gray-700 rounded flex items-center gap-2 w-full">
+                    <div className="post-form bg-gray-800 rounded flex items-center gap-2 w-full">
                         <textarea
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             type="text"
                             placeholder="What's Popping?"
-                            className=" text-white bg-transparent p-4 h-10 rounded-md w-full flex-grow"
+                            className=" text-white bg-transparent p-2 h-18 rounded-md w-full flex-grow"
                             required
                         />
 

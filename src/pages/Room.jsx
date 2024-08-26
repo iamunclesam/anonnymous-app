@@ -35,10 +35,10 @@ const Room = () => {
                         {/* Chat Header */}
                         <div className="bg-gray-900 text-white p-4 flex items-center justify-between">
                             <h1 className="text-xl font-semibold">Chat Room</h1>
-                            <div className="flex items-center gap-2">
+                            {/* <div className="flex items-center gap-2">
                                 <Icon icon="mdi:account" className="w-6 h-6" />
                                 <span>{user ? user.email : 'Loading...'}</span>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Message List */}
@@ -49,7 +49,7 @@ const Room = () => {
                                     className={`flex ${msg.user_id === user.id ? 'justify-end' : 'justify-start'} mb-2`}
                                 >
                                     <div
-                                        className={`p-3 rounded ${msg.user_id === user.id ? 'bg-blue-500 text-white' : 'bg-gray-300'
+                                        className={`p-3 rounded ${msg.user_id === user.id ? 'bg-purple-600 text-white' : 'bg-gray-300'
                                             }`}
                                     >
                                         {msg.content}
@@ -59,7 +59,7 @@ const Room = () => {
                         </div>
 
                         {/* Input Area */}
-                        <div className="bg-gray-800 p-4 border-t border-gray-200 fixed w-full bottom-16">
+                        <div className="bg-gray-800 p-4 border-t border-gray-200 fixed w-[100%] bottom-16">
                             <form onSubmit={handleSendMessage} className="flex items-center">
                                 <input
                                     type="text"
@@ -79,7 +79,7 @@ const Room = () => {
                     </div>
 
                     {/* Followers Sidebar */}
-                    <div className="bg-gray-800 border-l border-gray-700 p-4 hidden md:block">
+                    <div className="bg-gray-800 col border-l border-gray-700 p-4 hidden md:block">
                         <h2 className="text-white text-xl mb-4">Followers</h2>
                         <ul>
                             {followers.map((follower) => (
